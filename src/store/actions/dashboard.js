@@ -27,7 +27,6 @@ export const dashboardGetInfo = (token) => {
 		let queryParams = '?auth=' + token;
 		axios.get('/orders.json' + queryParams)
 		.then(res => {
-			console.log(res.data)
 			dispatch(dashboardGetInfoSuccess(res.data));
 		})
 		.catch(err => {

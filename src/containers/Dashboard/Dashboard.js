@@ -8,10 +8,13 @@ class Dashboard extends Component {
 		this.props.onGetInfo(this.props.token);
 	}
 
-	for(order in this.props.info) {
-		console.log(order);
-	}
+	
 	render() {
+		// let order;
+		// for(order in this.props.info) {
+		// console.log(order);
+		// }
+		// console.log(order)
 		return (
 				<div>
 					<div>
@@ -27,7 +30,7 @@ class Dashboard extends Component {
 
 const mapStateToProps = state => {
 	return{
-		token: state.auth.token
+		token: state.auth.token,
 		info: state.dashboard.info
 	}
 }
