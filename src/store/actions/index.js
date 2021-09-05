@@ -12,3 +12,7 @@ export {
  	setAuthRedirectPath,
  	authCheckState
  } from './auth';
+
+ export {
+ 	dashboardGetInfo
+ } from './dashboard'

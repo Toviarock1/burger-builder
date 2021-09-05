@@ -7,7 +7,8 @@ const initialState = {
     userId: null,
     error: null,
     loading: false,
-    authRedirectPath: '/'
+    authRedirectPath: '/',
+    admin: false
 };
 
 const authStart = (state, action) => {
@@ -19,7 +20,8 @@ const authSuccess = (state, action) => {
         loading: false,
         token: action.idToken,
         userId: action.userId,
-        error: null
+        error: null,
+        admin: action.userId === 'FTqOeABFGsN0X9nQ5l5tRyrvaou2' ? true : false
     });
 };
 
@@ -31,7 +33,11 @@ const authFail = (state, action) => {
 };
 
 const authLogout = (state, action) => {
-    return updateObject(state, {token: null, userId: null})
+    return updateObject(state, {
+        token: null, 
+        userId: null,
+        admin: action.userId === 'FTqOeABFGsN0X9nQ5l5tRyrvaou2' ? true : false}
+    );
 };
 
 const setAuthRedirectPath = (state, action) => {

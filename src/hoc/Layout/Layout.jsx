@@ -25,10 +25,12 @@ class Layout extends Component {
             <React.Fragment>
                 <Toolbar
                     isAuth={this.props.isAuthenticated}
+                    isAdmin={this.props.admin}
                     DrawertoggleClicked={this.sideDrawertoggleHandler}/>
                 <SideDrawer
                     isAuth={this.props.isAuthenticated}
                     open={this.state.showSideDrawer}
+                    isAdmin={this.props.admin}
                     closed={this.sideDrawerClosedHandler} />
                 <main className={classes.Content}>
                     {this.props.children}
@@ -40,7 +42,8 @@ class Layout extends Component {
 
 const mapStateToProps = state => {
     return {
-        isAuthenticated: state.auth.token !== null
+        isAuthenticated: state.auth.token !== null,
+        admin: state.auth.admin
     }
 }
 
