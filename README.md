@@ -3,20 +3,29 @@
 Burger builderer is a web application where users can make a burger by choosing different ingredients and order it. You just need to simply create an account and login to order your burger.
 
 ## Built With
--React
--Redux
--Firebase
+- React
+- Redux
+- Firebase
 
 ## Features
 
--A user can signup/login
--A user can make a burger
--A user can order the burger they made 
+- A user can signup/login
+- A user can make a burger
+- A user can order the burger they made 
 
 ## Getting Started
-1. clone project
-2.run npm install
-3.run npm start to view project in localhost 
+> To get started with the app, clone the repo and then run:
+```
+npm install
+```
+> To view app in localhost:
+```
+npm start
+```
+## Authors
+
+👤 **Adama Simon James**
+
 
 ## Live version
 url:
