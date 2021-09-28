@@ -25,7 +25,7 @@ export const dashboardGetInfo = (token) => {
 	return dispatch => {
 		dispatch(dashboardGetInfoStart());
 		let queryParams = '?auth=' + token;
-		axios.get('/orders.json' + queryParams)
+		axios.get('/users.json' + queryParams)
 		.then(res => {
 			dispatch(dashboardGetInfoSuccess(res.data));
 		})

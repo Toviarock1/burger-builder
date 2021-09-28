@@ -1,0 +1,19 @@
+"rules": {
+  "ingredients": {
+    ".read": "true", // 2021-7-27
+    ".write": "true"
+  }, // 2021-7-27
+  "orders": {
+    ".read": "auth != null",
+    ".write": "auth != null",
+    ".indexOn": [
+      "userId"
+    ]
+  },
+  "users": {
+    ".read": "auth != null",
+    ".write": "auth != null"
+  }
+}
+
+
