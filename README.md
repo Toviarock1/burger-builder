@@ -28,7 +28,7 @@ npm start
 
 
 ## Live version
-url:
+url: https://react-my-burger-238eb.web.app/
 
 ## Contributing
 
