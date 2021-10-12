@@ -12,6 +12,10 @@ export {
   setAuthRedirectPath,
   authCheckState,
   logoutSucceed,
+  authStart,
+  authSuccess,
+  authFail,
+  checkAuthTimeout
 } from "./auth";
 
 export { dashboardGetInfo } from "./dashboard";
