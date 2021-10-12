@@ -30,28 +30,52 @@ export function* authUserSaga(action) {
     url =
       "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAzIhQgJcJR4AGZnnlbxleXFGDRUKuOn5k";
   }
-  try{
-  const response = yield axios.post(url, authData)
+  try {
+    const response = yield axios.post(url, authData);
 
-  const expirationDate = yield new Date(
-    new Date().getTime() + response.data.expiresIn * 1000
-  );
-  yield localStorage.setItem("token", response.data.idToken);
-  yield localStorage.setItem("expirationDate", expirationDate);
-  yield localStorage.setItem("userId", response.data.localId);
-  yield put(actions.authSuccess(response.data.idToken, response.data.localId));
-  yield put(actions.checkAuthTimeout(response.data.expiresIn));
-  } catch(error) {
-      let errorMessage =
-        error.response === undefined ? error : error.response.data.error;
-      if (errorMessage.message === "EMAIL_EXISTS") {
-        errorMessage.message =
-          "The email address is already in use by another account";
-      } else if (errorMessage.message === "EMAIL_NOT_FOUND") {
-        errorMessage.message = "You do not have an accout please sign up";
-      } else if (errorMessage.message === "INVALID_PASSWORD") {
-        errorMessage.message = errorMessage.message = "Wrong Password";
-      }
-      yield put(actions.authFail(errorMessage));
-    };
+    const expirationDate = yield new Date(
+      new Date().getTime() + response.data.expiresIn * 1000
+    );
+    yield localStorage.setItem("token", response.data.idToken);
+    yield localStorage.setItem("expirationDate", expirationDate);
+    yield localStorage.setItem("userId", response.data.localId);
+    yield put(
+      actions.authSuccess(response.data.idToken, response.data.localId)
+    );
+    yield put(actions.checkAuthTimeout(response.data.expiresIn));
+  } catch (error) {
+    let errorMessage =
+      error.response === undefined ? error : error.response.data.error;
+    if (errorMessage.message === "EMAIL_EXISTS") {
+      errorMessage.message =
+        "The email address is already in use by another account";
+    } else if (errorMessage.message === "EMAIL_NOT_FOUND") {
+      errorMessage.message = "You do not have an accout please sign up";
+    } else if (errorMessage.message === "INVALID_PASSWORD") {
+      errorMessage.message = errorMessage.message = "Wrong Password";
+    }
+    yield put(actions.authFail(errorMessage));
+  }
+}
+
+export function* authCheckStateSaga(action) {
+  const token = yield localStorage.getItem("token");
+  if (!token) {
+    yield put(actions.logout());
+  } else {
+    const expirationDate = yield new Date(
+      yield localStorage.getItem("expirationDate")
+    );
+    if (expirationDate <= new Date()) {
+      yield put(actions.logout());
+    } else {
+      const userId = yield localStorage.getItem("userId");
+      yield put(actions.authSuccess(token, userId));
+      yield put(
+        actions.checkAuthTimeout(
+          (expirationDate.getTime() - new Date().getTime()) / 1000
+        )
+      );
+    }
+  }
 }
