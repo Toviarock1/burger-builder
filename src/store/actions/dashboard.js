@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import axios from '../../axios-orders';
+
 
 export const dashboardGetInfoStart = () => {
 	return{
@@ -22,15 +22,8 @@ export const dashboardGetInfoFail = (error) => {
 };
 
 export const dashboardGetInfo = (token) => {
-	return dispatch => {
-		dispatch(dashboardGetInfoStart());
-		let queryParams = '?auth=' + token;
-		axios.get('/users.json' + queryParams)
-		.then(res => {
-			dispatch(dashboardGetInfoSuccess(res.data));
-		})
-		.catch(err => {
-			dispatch(dashboardGetInfoFail(err));
-		})
+	return {
+		type: actionTypes.DASHBOARD_GET_INFO,
+		token: token
 	}
 }

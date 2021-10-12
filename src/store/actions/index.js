@@ -3,10 +3,20 @@ export {
   removeIngredient,
   initIngredients,
   setIngredients,
-  fetchIngredientsFailed
+  fetchIngredientsFailed,
 } from "./burgerBuilder";
 
-export { purchaseBurger, purchaseInit, fetchOrders } from "./order";
+export {
+  purchaseBurger,
+  purchaseInit,
+  fetchOrders,
+  purchaseBurgerFail,
+  purchaseBurgerSuccess,
+  purchaseBurgerStart,
+  fetchOrdersStart,
+  fetchOrdersSuccess,
+  fetchOrdersFail,
+} from "./order";
 
 export {
   auth,
@@ -17,7 +27,12 @@ export {
   authStart,
   authSuccess,
   authFail,
-  checkAuthTimeout
+  checkAuthTimeout,
 } from "./auth";
 
-export { dashboardGetInfo } from "./dashboard";
+export {
+  dashboardGetInfo,
+  dashboardGetInfoFail,
+  dashboardGetInfoStart,
+  dashboardGetInfoSuccess,
+} from "./dashboard";
