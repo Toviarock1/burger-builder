@@ -1,87 +1,79 @@
-import React, { Component, Suspense, lazy } from 'react';
-import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React, { Suspense, lazy, useEffect } from "react";
+import { Route, Switch, withRouter, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
-import Layout from './hoc/Layout/Layout';
-import * as actions from './store/actions/index';
-import Spinner from './components/UI/Spinner/Spinner';
-import Dashboard from './containers/Dashboard/Dashboard';
+import Layout from "./hoc/Layout/Layout";
+import * as actions from "./store/actions/index";
+import Spinner from "./components/UI/Spinner/Spinner";
+import Dashboard from "./containers/Dashboard/Dashboard";
 
-class App extends Component {
-  componentDidMount () {
-    this.props.onTryAutoSignup();
-  }
+const App = (props) => {
+  const { onTryAutoSignup } = props;
+  const Auth = lazy(() => import("./containers/Auth/Auth"));
+  const BurgerBuilder = lazy(() =>
+    import("./containers/BurgerBuilder/BurgerBuilder")
+  );
+  const Checkout = lazy(() => import("./containers/Checkout/Checkout"));
+  const Orders = lazy(() => import("./containers/Orders/Orders"));
+  const Logout = lazy(() => import("./containers/Auth/Logout/Logout"));
 
-  render () {
+  useEffect(() => {
+    onTryAutoSignup();
+  }, [onTryAutoSignup]);
 
-    const Auth = lazy(() => import('./containers/Auth/Auth'));
-    const BurgerBuilder = lazy(() => import('./containers/BurgerBuilder/BurgerBuilder'));
-    const Checkout = lazy(() => import('./containers/Checkout/Checkout'));
-    const Orders = lazy(() => import('./containers/Orders/Orders'));
-    const Logout = lazy(() => import('./containers/Auth/Logout/Logout'));
+  let routes = (
+    <Switch>
+      <Route path="/auth" component={Auth} />
+      <Route path="/" exact component={BurgerBuilder} />
+      <Redirect to="/" />
+    </Switch>
+  );
 
-
-    let routes = (
-      <Suspense fallback={<Spinner />}>
-        <Switch>
-          <Route path="/auth" component={Auth} />
-          <Route path="/" exact component={BurgerBuilder} />
-          <Redirect to="/" />
-        </Switch>
-      </Suspense>
+  if (props.isAuthenticated) {
+    routes = (
+      <Switch>
+        <Route path="/checkout" component={Checkout} />
+        <Route path="/orders" component={Orders} />
+        <Route path="/logout" component={Logout} />
+        <Route path="/" exact component={BurgerBuilder} />
+        <Redirect to={props.authRedirectPath} />
+      </Switch>
     );
 
-    if ( this.props.isAuthenticated ) {
+    if (props.isAdmin) {
       routes = (
-        <Suspense fallback={<Spinner />}>
-            <Switch>
-              <Route path="/checkout" component={Checkout} />
-              <Route path="/orders" component={Orders} />
-              <Route path="/logout" component={Logout} />
-              <Route path="/" exact component={BurgerBuilder} />
-              <Redirect to={this.props.authRedirectPath} />
-            </Switch>
-        </Suspense>
+        <Switch>
+          <Route path="/checkout" component={Checkout} />
+          <Route path="/orders" component={Orders} />
+          <Route path="/logout" component={Logout} />
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/" exact component={BurgerBuilder} />
+          <Redirect to={props.authRedirectPath} />
+        </Switch>
       );
-
-      if(this.props.isAdmin) {
-        routes = (
-        <Suspense fallback={<Spinner />}>
-            <Switch>
-              <Route path="/checkout" component={Checkout} />
-              <Route path="/orders" component={Orders} />
-              <Route path="/logout" component={Logout} />
-              <Route path="/dashboard" component={Dashboard} />
-              <Route path="/" exact component={BurgerBuilder} />
-              <Redirect to={this.props.authRedirectPath} />
-            </Switch>
-        </Suspense>
-      );
-      }
     }
-
-    return (
-      <div>
-        <Layout>
-          {routes}
-        </Layout>
-      </div>
-    );
   }
-}
+  return (
+    <div>
+      <Layout>
+        <Suspense fallback={<Spinner />}>{routes}</Suspense>
+      </Layout>
+    </div>
+  );
+};
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.token !== null,
     authRedirectPath: state.auth.authRedirectPath,
-    isAdmin: state.auth.admin
+    isAdmin: state.auth.admin,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    onTryAutoSignup: () => dispatch( actions.authCheckState() )
+    onTryAutoSignup: () => dispatch(actions.authCheckState()),
   };
 };
 
-export default withRouter( connect( mapStateToProps, mapDispatchToProps )( App ) );
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

@@ -44,7 +44,7 @@ export function* fetchedOrders(action) {
             
         } else {
             try{
-                const res = yield axios.get(`/users/${action.serId}/orders.json?auth=${action.token}`);
+                const res = yield axios.get(`/users/${action.userId}/orders.json?auth=${action.token}`);
 
                     const fetchedOrders = [];
                     for (let key in res.data) {
