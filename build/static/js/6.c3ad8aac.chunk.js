@@ -1,0 +1,2 @@
+(this["webpackJsonpburger-builder"]=this["webpackJsonpburger-builder"]||[]).push([[6],{112:function(t,u,n){"use strict";n.r(u);var r=n(0),e=n(7),o=n(10),c=n(20),b=n(2);u.default=Object(c.b)(null,(function(t){return{onLogout:function(){return t(e.r())}}}))((function(t){var u=t.onLogout;return Object(r.useEffect)((function(){u()}),[u]),Object(b.jsx)(o.a,{to:"/"})}))}}]);
+//# sourceMappingURL=6.c3ad8aac.chunk.js.map
