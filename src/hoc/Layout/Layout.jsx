@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import ReactGA from 'react-ga';
 
 import classes from './Layout.module.css';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
+
+ReactGA.initialize('UA-200593596-1');
 
 const Layout = (props) => {
     const [showSideDrawer, setShowSideDrawer] = useState(false);
@@ -16,6 +19,7 @@ const Layout = (props) => {
         setShowSideDrawer(!showSideDrawer);
     }
 
+    ReactGA.pageview(window.location.pathname + window.location.search);
 
     return (
         <React.Fragment>
