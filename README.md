@@ -1,5 +1,7 @@
 # Burger Builder
 
+![Burger Builder](https://i.ibb.co/487tBR4/Screenshot-from-2021-11-19-14-17-06.png)
+
 Burger builderer is a web application where users can make a burger by choosing different ingredients and order it. You just need to simply create an account and login to order your burger.
 
 ## Built With
